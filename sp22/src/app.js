@@ -1,32 +1,27 @@
-// const http = require('http');
+
 const express = require("express");
 import cors from 'cors';
 import morgan from 'morgan';
-import product from '../routes/product'
+import mongoose from 'mongoose';
 
+
+import product from '../routes/product';
+import auth from '../routes/auth'
 //middleware
 const app = express()
 app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
-app.use(product)
 
-// const server = http.createServer((req,res)=>{
-//     console.log("url",req.url);
-//     if(req.url ==="/"){
-//         res.setHeader('Content-Type',"text/html");
-//         res.write("<html><h1>alo</h1></html>");
-//         res.end();
-//     }else if(req.url ==="/broduck"){
-//         const products = [
-//            
-//         ]
+//route
+app.use("/api",product)
+app.use("/api",auth)
 
-//         res.end(JSON.stringify(products));
-//     }else{
-//         console.log('?????????')
-//     }
-// });
+//connect database
+
+mongoose.connect('mongodb://localhost:27017/we16309')
+    .then(() => console.log("ket noi thanh cong"))
+    .catch(console.log("error"));
 
 
 const PORT = 3001;

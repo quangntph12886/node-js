@@ -1,32 +1,17 @@
 import { Router } from "express";
+import { create, list, read, remove, update } from "../controller/product";
+import {userAuth,roleAuth} from "../middlewares/check"
 const router = Router();
 
-const check = (req,res,next) =>{
-    const status = true;
-    if(status){
-        console.log("hello");
-        next();
-    }else{
-        console.log("?????????");
-    }
-}
 
-router.get('/broduck',check,(req,res)=>{
-    const products = [
-        {id:1,name:"alo"},
-        {id:2,name:"blo"}
-    ];
-    res.json(products);
-});
+router.get('/products', list);
 
-router.post('/broduck',check,(req,res)=>{
+router.get('/products/:id',read);
 
-    const products = [
-        {id:1,name:"alo"},
-        {id:2,name:"blo"}
-    ];
-    products.push(req.body);
-    res.json(products);
-})
+router.post('/products',create);
+
+router.delete('/products/:id',userAuth,roleAuth,remove);
+
+router.patch('/products/:id',update);
 
 export default router;
